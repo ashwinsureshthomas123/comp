@@ -17,7 +17,7 @@ def running(file, comp_file,fname):
     bucketname = file # replace with your bucket name
     filename =fname # replace with your object key
     ext = str(filename[len(filename)-4:len(filename)])
-    client = boto3.client('s3',aws_access_key_id='AKIAJA5O2DUFZAPU6BAQ',aws_secret_access_key='8xnMVqXeIK/WWq8Lh+DEYuLa1AqfRPzhNf/HkhqA')
+    client = boto3.client('s3',aws_access_key_id='AKIAIRANN4LCIUP7Q5UA',aws_secret_access_key='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')
     s3 = boto3.resource('s3')
     temp='temp'+ext
     s3.Bucket(bucketname).download_file(filename, temp)
@@ -31,7 +31,7 @@ def running(file, comp_file,fname):
     print(comp_file)
     print(image.save(comp_file))   
                             # Saves the image
-    s3.Object(bucketname,comp_file).upload_file(Filename=comp_file)
+    
     enhancer = ImageEnhance.Brightness(image)
     image = enhancer.enhance(2)
    
@@ -39,6 +39,7 @@ def running(file, comp_file,fname):
     image.save(file_enh)
     im = Image.open(file_enh)
     size = get_image_dimensions(temp)
+    s3.Object(bucketname,file_enh).upload_file(Filename=file_enh)
     im_resized = im.resize(size, Image.
                            ANTIALIAS)
     im_resized.save(comp_file)
@@ -70,6 +71,7 @@ def run():
     fname=argv[2]
     file =[]
     file.append(argv[1])
+    
     # create_folder()
     ans = 0
     mini = math.inf
